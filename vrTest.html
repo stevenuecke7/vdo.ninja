@@ -48,6 +48,7 @@ btnPlay.addEventListener("click", event => {
 
 
 let g = new THREE.SphereGeometry(5, 36, 18);
+g.scale( - 1, 1, 1 );
 g.rotateY(-Math.PI * 0.5);
 let m = new THREE.MeshBasicMaterial();
 let o = new THREE.Mesh(g, m);
