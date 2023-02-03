@@ -67,6 +67,7 @@ window.addEventListener("resize", onWindowResize);
 document.addEventListener( 'pointerdown', onPointerDown );
 				document.addEventListener( 'pointermove', onPointerMove );
 				document.addEventListener( 'pointerup', onPointerUp );
+                document.addEventListener( 'wheel', onDocumentMouseWheel );
 
 animate();
 
@@ -98,7 +99,15 @@ function onPointerUp() {
 isUserInteracting = false;
 
 }
+function onDocumentMouseWheel( event ) {
 
+const fov = camera.fov + event.deltaY * 0.05;
+
+camera.fov = THREE.MathUtils.clamp( fov, 10, 75 );
+
+camera.updateProjectionMatrix();
+
+}
 function animate() {
 
 requestAnimationFrame( animate );
