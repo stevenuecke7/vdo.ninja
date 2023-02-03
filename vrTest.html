@@ -104,7 +104,7 @@ function onWindowResize() {
         geometry.scale( - 1, 1, 1 );
         let iframe = document.getElementsByTagName("iframe");
         const video = iframe[0].contentWindow.document.getElementsByTagName("video");//document.getElementById( 'video' );
-        video.play();
+        //video.play();
 
         const texture = new THREE.VideoTexture( video );
         const material = new THREE.MeshBasicMaterial( { map: texture } );
