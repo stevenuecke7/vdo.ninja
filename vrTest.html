@@ -31,14 +31,14 @@ let controls = new OrbitControls(camera, renderer.domElement);
 btnPlay.addEventListener("click", event => {
 	btnPlay.style.display = "none";
     let iframe = document.getElementsByTagName("iframe");
-    console.log(iframe.length);
+    console.log("iframes: " + iframe.length);
   let video = iframe[0].contentWindow.document.getElementsByTagName("video");//.item(0);
-  console.log(video.length);
+  console.log("videos: " + video.length);
   for( var i = 0; i < video.length; i++ ){
-      console.log(i);
+      console.log("video: " + i);
 }
   //video.play();
-  let videoTex = new THREE.VideoTexture( video );
+  let videoTex = new THREE.VideoTexture(video[0]);
   m.map = videoTex;
   m.needsUpdate = true;
 })
