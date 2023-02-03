@@ -17,7 +17,7 @@ import {
 
 let scene = new THREE.Scene();
 let camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 1, 1000);
-camera.position.set(0, 0, 10);
+camera.position.set(0, 0, 0);
 let renderer = new THREE.WebGLRenderer({
   antialias: true
 });
@@ -40,6 +40,7 @@ btnPlay.addEventListener("click", event => {
   //video.play();
   let videoTex = new THREE.VideoTexture(video[0]);
   m.map = videoTex;
+  m.side = THREE.BackSide
   m.needsUpdate = true;
 })
 
