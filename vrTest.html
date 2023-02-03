@@ -19,7 +19,7 @@ import {
 
 let scene = new THREE.Scene();
 let camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 1, 1000);
-camera.position.set(0, 0, 10);
+//camera.position.set(0, 0, 10);
 let renderer = new THREE.WebGLRenderer({
   antialias: true
 });
@@ -47,21 +47,78 @@ btnPlay.addEventListener("click", event => {
 })
 
 
-let g = new THREE.SphereGeometry(5, 36, 18);
+let g = new THREE.SphereGeometry(500, 60, 40);
 g.scale( - 1, 1, 1 );
 g.rotateY(-Math.PI * 0.5);
 let m = new THREE.MeshBasicMaterial();
 let o = new THREE.Mesh(g, m);
+let isUserInteracting = false,
+				lon = 0, lat = 0,
+				phi = 0, theta = 0,
+				onPointerDownPointerX = 0,
+				onPointerDownPointerY = 0,
+				onPointerDownLon = 0,
+				onPointerDownLat = 0;
+
+			const distance = 50;
 scene.add(o);
 
 window.addEventListener("resize", onWindowResize);
+document.addEventListener( 'pointerdown', onPointerDown );
+				document.addEventListener( 'pointermove', onPointerMove );
+				document.addEventListener( 'pointerup', onPointerUp );
 
 animate();
 
+function onPointerDown( event ) {
+
+isUserInteracting = true;
+
+onPointerDownPointerX = event.clientX;
+onPointerDownPointerY = event.clientY;
+
+onPointerDownLon = lon;
+onPointerDownLat = lat;
+
+}
+
+function onPointerMove( event ) {
+
+if ( isUserInteracting === true ) {
+
+    lon = ( onPointerDownPointerX - event.clientX ) * 0.1 + onPointerDownLon;
+    lat = ( onPointerDownPointerY - event.clientY ) * 0.1 + onPointerDownLat;
+
+}
+
+}
+
+function onPointerUp() {
+
+isUserInteracting = false;
+
+}
+
 function animate() {
 
-  requestAnimationFrame( animate );
-  renderer.render(scene, camera);
+requestAnimationFrame( animate );
+update();
+
+}
+
+function update() {
+
+lat = Math.max( - 85, Math.min( 85, lat ) );
+phi = THREE.MathUtils.degToRad( 90 - lat );
+theta = THREE.MathUtils.degToRad( lon );
+
+camera.position.x = distance * Math.sin( phi ) * Math.cos( theta );
+camera.position.y = distance * Math.cos( phi );
+camera.position.z = distance * Math.sin( phi ) * Math.sin( theta );
+
+camera.lookAt( 0, 0, 0 );
+
+renderer.render( scene, camera );
 
 }
 
